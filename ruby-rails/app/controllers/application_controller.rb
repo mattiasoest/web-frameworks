@@ -38,8 +38,9 @@ class ApplicationController < ActionController::API
   def parse_json_body
     return @parsed_body if defined?(@parsed_body)
 
-    @parsed_body = request.request_parameters
-  rescue ActionDispatch::Http::Parameters::ParseError
+    raw = request.raw_post
+    @parsed_body = raw.blank? ? {} : JSON.parse(raw)
+  rescue JSON::ParserError
     validation_error!("body", "Invalid JSON")
     nil
   end
