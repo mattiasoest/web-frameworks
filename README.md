@@ -30,7 +30,7 @@ docker compose up --build
 
 Services:
 
-- Postgres: `localhost:5432`
+- Postgres: `localhost:5433` (host port; configurable via `POSTGRES_PORT` in `.env`)
 - Node/Express: `http://localhost:3001`
 - Python/FastAPI: `http://localhost:3002`
 - Ruby/Rails: `http://localhost:3003`
@@ -151,7 +151,7 @@ c.JSON(http.StatusCreated, ship)
    ```bash
    docker compose up postgres -d
    ```
-2. Set `DATABASE_URL=postgresql://spaceship:spaceship@localhost:5432/spaceship`
+2. Set `DATABASE_URL=postgresql://spaceship:spaceship@localhost:5433/spaceship`
 3. Run each service from its directory (see per-stack README notes below).
 
 Per-stack dev commands:

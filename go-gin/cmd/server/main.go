@@ -14,7 +14,7 @@ import (
 func main() {
 	dsn := os.Getenv("DATABASE_URL")
 	if dsn == "" {
-		dsn = "postgresql://spaceship:spaceship@localhost:5432/spaceship"
+		dsn = "postgresql://spaceship:spaceship@localhost:5433/spaceship"
 	}
 	port := os.Getenv("PORT")
 	if port == "" {

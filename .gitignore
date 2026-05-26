@@ -10,3 +10,5 @@ build/
 go-gin/server
 .DS_Store
 postgres_data/
+ruby-rails/log/
+ruby-rails/tmp/

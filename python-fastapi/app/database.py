@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlmodel import Session
 
 DATABASE_URL = os.getenv(
-    "DATABASE_URL", "postgresql://spaceship:spaceship@localhost:5432/spaceship"
+    "DATABASE_URL", "postgresql://spaceship:spaceship@localhost:5433/spaceship"
 )
 
 engine = create_engine(DATABASE_URL)

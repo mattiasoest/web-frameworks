@@ -1,5 +1,3 @@
-require_relative "environment"
-
 Rails.application.configure do
   config.cache_classes = true
   config.eager_load = true

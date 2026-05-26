@@ -1,11 +1,12 @@
 FROM ruby:3.3-alpine
 
-RUN apk add --no-cache build-base postgresql-dev tzdata
+RUN apk add --no-cache build-base postgresql-dev tzdata yaml-dev
 
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock* ./
-RUN bundle install
+RUN bundle config set --local without 'development test' \
+  && bundle install
 
 COPY . .
 
