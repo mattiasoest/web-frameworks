@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ShipClass {
+  cruiser
+  frigate
+  destroyer
+  scout
+
+  @@map("ship_class")
+}
+
+enum CrewmateRole {
+  captain
+  engineer
+  medic
+  pilot
+  gunner
+
+  @@map("crewmate_role")
+}
+
+enum MissionStatus {
+  planned
+  active
+  completed
+  failed
+
+  @@map("mission_status")
+}
+
+model Ship {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String    @db.VarChar(255)
+  class       ShipClass @map("class")
+  registry    String    @unique @db.VarChar(255)
+  warpCapable Boolean   @default(false) @map("warp_capable")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  crewmates Crewmate[]
+  missions  Mission[]
+
+  @@map("ships")
+}
+
+model Crewmate {
+  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  shipId    String       @map("ship_id") @db.Uuid
+  name      String       @db.VarChar(255)
+  role      CrewmateRole
+  species   String       @db.VarChar(255)
+  rank      Int          @map("rank")
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  ship Ship @relation(fields: [shipId], references: [id], onDelete: Cascade)
+
+  @@index([shipId], map: "idx_crewmates_ship_id")
+  @@map("crewmates")
+}
+
+model Mission {
+  id        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  shipId    String        @map("ship_id") @db.Uuid
+  codename  String        @db.VarChar(255)
+  objective String        @db.Text
+  status    MissionStatus @default(planned)
+  startedAt DateTime?     @map("started_at") @db.Timestamptz(6)
+  endedAt   DateTime?     @map("ended_at") @db.Timestamptz(6)
+  createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  ship Ship @relation(fields: [shipId], references: [id], onDelete: Cascade)
+
+  @@index([shipId], map: "idx_missions_ship_id")
+  @@index([status], map: "idx_missions_status")
+  @@map("missions")
+}

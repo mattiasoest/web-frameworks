@@ -1,0 +1,522 @@
+openapi: 3.0.3
+info:
+  title: Spaceship Crew Log API
+  version: 1.0.0
+  description: Shared REST contract for all six backend implementations.
+
+servers:
+  - url: http://localhost:3001
+    description: Node/Express
+  - url: http://localhost:3002
+    description: Python/FastAPI
+  - url: http://localhost:3003
+    description: Ruby on Rails
+  - url: http://localhost:3004
+    description: Java/Spring Boot
+  - url: http://localhost:3005
+    description: Kotlin/Spring Boot
+  - url: http://localhost:3006
+    description: Go/Gin
+
+paths:
+  /healthz:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /ships:
+    get:
+      summary: List all ships
+      responses:
+        "200":
+          description: List of ships
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ship"
+    post:
+      summary: Create a ship
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShipCreate"
+      responses:
+        "201":
+          description: Ship created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ship"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+  /ships/{id}:
+    parameters:
+      - $ref: "#/components/parameters/UuidId"
+    get:
+      summary: Get a ship by ID
+      responses:
+        "200":
+          description: Ship found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ship"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      summary: Update a ship
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShipUpdate"
+      responses:
+        "200":
+          description: Ship updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ship"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      summary: Delete a ship
+      responses:
+        "204":
+          description: Ship deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /ships/{id}/crewmates:
+    parameters:
+      - $ref: "#/components/parameters/UuidId"
+    get:
+      summary: List crewmates for a ship
+      responses:
+        "200":
+          description: List of crewmates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Crewmate"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /ships/{id}/missions:
+    parameters:
+      - $ref: "#/components/parameters/UuidId"
+    get:
+      summary: List missions for a ship
+      responses:
+        "200":
+          description: List of missions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Mission"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /crewmates:
+    get:
+      summary: List all crewmates
+      responses:
+        "200":
+          description: List of crewmates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Crewmate"
+    post:
+      summary: Create a crewmate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CrewmateCreate"
+      responses:
+        "201":
+          description: Crewmate created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Crewmate"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+  /crewmates/{id}:
+    parameters:
+      - $ref: "#/components/parameters/UuidId"
+    get:
+      summary: Get a crewmate by ID
+      responses:
+        "200":
+          description: Crewmate found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Crewmate"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      summary: Update a crewmate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CrewmateUpdate"
+      responses:
+        "200":
+          description: Crewmate updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Crewmate"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      summary: Delete a crewmate
+      responses:
+        "204":
+          description: Crewmate deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /missions:
+    get:
+      summary: List all missions
+      responses:
+        "200":
+          description: List of missions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Mission"
+    post:
+      summary: Create a mission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MissionCreate"
+      responses:
+        "201":
+          description: Mission created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mission"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+  /missions/{id}:
+    parameters:
+      - $ref: "#/components/parameters/UuidId"
+    get:
+      summary: Get a mission by ID
+      responses:
+        "200":
+          description: Mission found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mission"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      summary: Update a mission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MissionUpdate"
+      responses:
+        "200":
+          description: Mission updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mission"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      summary: Delete a mission
+      responses:
+        "204":
+          description: Mission deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  parameters:
+    UuidId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: not_found
+    ValidationError:
+      description: Validation failed
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: validation_failed
+            details:
+              - field: name
+                message: Required
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+
+    ShipClass:
+      type: string
+      enum: [cruiser, frigate, destroyer, scout]
+
+    CrewmateRole:
+      type: string
+      enum: [captain, engineer, medic, pilot, gunner]
+
+    MissionStatus:
+      type: string
+      enum: [planned, active, completed, failed]
+
+    Ship:
+      type: object
+      required: [id, name, class, registry, warp_capable, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        class:
+          $ref: "#/components/schemas/ShipClass"
+        registry:
+          type: string
+        warp_capable:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ShipCreate:
+      type: object
+      required: [name, class, registry]
+      properties:
+        name:
+          type: string
+        class:
+          $ref: "#/components/schemas/ShipClass"
+        registry:
+          type: string
+        warp_capable:
+          type: boolean
+          default: false
+
+    ShipUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        class:
+          $ref: "#/components/schemas/ShipClass"
+        registry:
+          type: string
+        warp_capable:
+          type: boolean
+
+    Crewmate:
+      type: object
+      required: [id, ship_id, name, role, species, rank, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        ship_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        role:
+          $ref: "#/components/schemas/CrewmateRole"
+        species:
+          type: string
+        rank:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    CrewmateCreate:
+      type: object
+      required: [ship_id, name, role, species, rank]
+      properties:
+        ship_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        role:
+          $ref: "#/components/schemas/CrewmateRole"
+        species:
+          type: string
+        rank:
+          type: integer
+
+    CrewmateUpdate:
+      type: object
+      properties:
+        ship_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        role:
+          $ref: "#/components/schemas/CrewmateRole"
+        species:
+          type: string
+        rank:
+          type: integer
+
+    Mission:
+      type: object
+      required: [id, ship_id, codename, objective, status, created_at, updated_at]
+      properties:
+        id:
+          type: string
+          format: uuid
+        ship_id:
+          type: string
+          format: uuid
+        codename:
+          type: string
+        objective:
+          type: string
+        status:
+          $ref: "#/components/schemas/MissionStatus"
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    MissionCreate:
+      type: object
+      required: [ship_id, codename, objective]
+      properties:
+        ship_id:
+          type: string
+          format: uuid
+        codename:
+          type: string
+        objective:
+          type: string
+        status:
+          $ref: "#/components/schemas/MissionStatus"
+          default: planned
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    MissionUpdate:
+      type: object
+      properties:
+        ship_id:
+          type: string
+          format: uuid
+        codename:
+          type: string
+        objective:
+          type: string
+        status:
+          $ref: "#/components/schemas/MissionStatus"
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true

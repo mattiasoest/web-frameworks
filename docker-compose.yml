@@ -1,0 +1,89 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-spaceship}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-spaceship}
+      POSTGRES_DB: ${POSTGRES_DB:-spaceship}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spaceship -d spaceship"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  node-express:
+    build: ./node-express
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://spaceship:spaceship@postgres:5432/spaceship
+      PORT: 3001
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  python-fastapi:
+    build: ./python-fastapi
+    ports:
+      - "3002:3002"
+    environment:
+      DATABASE_URL: postgresql://spaceship:spaceship@postgres:5432/spaceship
+      PORT: 3002
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  ruby-rails:
+    build: ./ruby-rails
+    ports:
+      - "3003:3003"
+    environment:
+      DATABASE_URL: postgresql://spaceship:spaceship@postgres:5432/spaceship
+      PORT: 3003
+      RAILS_ENV: production
+      SECRET_KEY_BASE: spaceship_api_secret_key_base_for_local_comparison_only_not_for_production_use_1234567890
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  java-springboot:
+    build: ./java-springboot
+    ports:
+      - "3004:3004"
+    environment:
+      DATABASE_URL: postgresql://spaceship:spaceship@postgres:5432/spaceship
+      PORT: 3004
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  kotlin-springboot:
+    build: ./kotlin-springboot
+    ports:
+      - "3005:3005"
+    environment:
+      DATABASE_URL: postgresql://spaceship:spaceship@postgres:5432/spaceship
+      PORT: 3005
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  go-gin:
+    build: ./go-gin
+    ports:
+      - "3006:3006"
+    environment:
+      DATABASE_URL: postgresql://spaceship:spaceship@postgres:5432/spaceship
+      PORT: 3006
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

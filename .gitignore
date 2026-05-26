@@ -1,0 +1,12 @@
+.env
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+target/
+build/
+.gradle/
+*.jar
+go-gin/server
+.DS_Store
+postgres_data/
