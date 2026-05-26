@@ -85,5 +85,17 @@ services:
       postgres:
         condition: service_healthy
 
+  react-ui:
+    build: ./react-ui
+    ports:
+      - "3080:80"
+    depends_on:
+      - node-express
+      - python-fastapi
+      - ruby-rails
+      - java-springboot
+      - kotlin-springboot
+      - go-gin
+
 volumes:
   postgres_data:

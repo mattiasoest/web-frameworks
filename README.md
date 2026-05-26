@@ -37,6 +37,7 @@ Services:
 - Java/Spring Boot: `http://localhost:3004`
 - Kotlin/Spring Boot: `http://localhost:3005`
 - Go/Gin: `http://localhost:3006`
+- React UI: `http://localhost:3080`
 
 Run contract smoke tests (requires all services up):
 
@@ -44,6 +45,25 @@ Run contract smoke tests (requires all services up):
 chmod +x tests/contract.sh
 ./tests/contract.sh
 ```
+
+## Frontend
+
+A React UI in [`react-ui/`](react-ui/) exercises every API endpoint and lets you switch between all six backends against the same database.
+
+**Docker** (included in `docker compose up`):
+
+- Open `http://localhost:3080`
+- Use the backend dropdown in the header to compare stacks
+
+**Local dev** (backends must be running separately):
+
+```bash
+cd react-ui
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. Vite proxies `/backends/{stack}/…` to `localhost:3001`–`3006`. Override the proxy host with `VITE_PROXY_TARGET_HOST` if needed.
 
 ## API Contract
 
@@ -166,4 +186,4 @@ Per-stack dev commands:
 
 **In scope:** CRUD ergonomics, validation patterns, routing style, ORM mapping, error handling, project structure.
 
-**Out of scope:** Auth, pagination, benchmarks, frontend, M:N relationships.
+**Out of scope:** Auth, pagination, benchmarks, M:N relationships.

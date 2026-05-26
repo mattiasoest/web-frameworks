@@ -1,0 +1,248 @@
+:root {
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: #1a1a2e;
+  background: #f4f6fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.layout {
+  min-height: 100vh;
+}
+
+.header {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 1rem 1.5rem 0;
+}
+
+.header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.subtitle {
+  margin: 0.5rem 0 0;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+
+.backend-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.backend-switcher label {
+  font-size: 0.85rem;
+}
+
+.backend-switcher select {
+  padding: 0.35rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: #fff;
+}
+
+.health-badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.health-ok {
+  background: #166534;
+}
+
+.health-error {
+  background: #991b1b;
+}
+
+.health-unknown {
+  background: #475569;
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.nav a {
+  color: #cbd5e1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px 4px 0 0;
+}
+
+.nav a.active {
+  background: #f4f6fb;
+  color: #1a1a2e;
+  text-decoration: none;
+}
+
+.main {
+  padding: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.page h2 {
+  margin-top: 0;
+}
+
+.status {
+  color: #64748b;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
+}
+
+th,
+td {
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  background: #f8fafc;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #64748b;
+}
+
+.form-section,
+.resource-table,
+.json-panel {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.form-grid input,
+.form-grid select {
+  padding: 0.45rem 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+}
+
+.checkbox-label {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.5rem !important;
+}
+
+button {
+  padding: 0.5rem 0.85rem;
+  border: none;
+  border-radius: 4px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #475569;
+}
+
+.btn-danger {
+  background: #b91c1c;
+}
+
+.button-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.tabs button {
+  background: #e2e8f0;
+  color: #1a1a2e;
+}
+
+.tabs button.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+.json-panel pre {
+  margin: 0;
+  padding: 0.75rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+}
+
+.json-panel h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+}

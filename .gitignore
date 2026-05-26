@@ -12,3 +12,5 @@ go-gin/server
 postgres_data/
 ruby-rails/log/
 ruby-rails/tmp/
+react-ui/node_modules/
+react-ui/dist/
