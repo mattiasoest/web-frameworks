@@ -4,7 +4,8 @@ export type BackendId =
   | "ruby-rails"
   | "java-springboot"
   | "kotlin-springboot"
-  | "go-gin";
+  | "go-gin"
+  | "node-nestjs";
 
 export interface Backend {
   id: BackendId;
@@ -15,6 +16,7 @@ export interface Backend {
 
 export const BACKENDS: Backend[] = [
   { id: "node-express", label: "Node/Express", port: 3001, dockerHost: "node-express" },
+  { id: "node-nestjs", label: "Node/NestJS", port: 3007, dockerHost: "node-nestjs" },
   { id: "python-fastapi", label: "Python/FastAPI", port: 3002, dockerHost: "python-fastapi" },
   { id: "ruby-rails", label: "Ruby on Rails", port: 3003, dockerHost: "ruby-rails" },
   { id: "java-springboot", label: "Java/Spring Boot", port: 3004, dockerHost: "java-springboot" },

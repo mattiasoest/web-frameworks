@@ -1,6 +1,6 @@
-# Rest Comparison: Six Stacks, One Spaceship API
+# Rest Comparison: Seven Stacks, One Spaceship API
 
-Six functionally identical REST backends for a **Spaceship Crew Log** CRUD app, all sharing one Postgres schema. Compare how each language/framework handles the same API contract.
+Seven functionally identical REST backends for a **Spaceship Crew Log** CRUD app, all sharing one Postgres schema. Compare how each language/framework handles the same API contract.
 
 ## Stacks
 
@@ -12,6 +12,7 @@ Six functionally identical REST backends for a **Spaceship Crew Log** CRUD app, 
 | Java + Spring Boot | 3004 | Spring Data JPA | Bean Validation |
 | Kotlin + Spring Boot | 3005 | Spring Data JPA | Bean Validation |
 | Go + Gin | 3006 | GORM | go-playground/validator |
+| Node.js + NestJS | 3007 | Prisma | class-validator |
 
 ## Domain
 
@@ -37,6 +38,7 @@ Services:
 - Java/Spring Boot: `http://localhost:3004`
 - Kotlin/Spring Boot: `http://localhost:3005`
 - Go/Gin: `http://localhost:3006`
+- Node/NestJS: `http://localhost:3007`
 - React UI: `http://localhost:3080`
 
 Run contract smoke tests (requires all services up):
@@ -48,7 +50,7 @@ chmod +x tests/contract.sh
 
 ## Frontend
 
-A React UI in [`react-ui/`](react-ui/) exercises every API endpoint and lets you switch between all six backends against the same database.
+A React UI in [`react-ui/`](react-ui/) exercises every API endpoint and lets you switch between all seven backends against the same database.
 
 **Docker** (included in `docker compose up`):
 
@@ -63,7 +65,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173`. Vite proxies `/backends/{stack}/…` to `localhost:3001`–`3006`. Override the proxy host with `VITE_PROXY_TARGET_HOST` if needed.
+Open `http://localhost:5173`. Vite proxies `/backends/{stack}/…` to `localhost:3001`–`3007`. Override the proxy host with `VITE_PROXY_TARGET_HOST` if needed.
 
 ## API Contract
 
@@ -155,15 +157,28 @@ h.DB.Create(&ship)
 c.JSON(http.StatusCreated, ship)
 ```
 
+### Node/NestJS + Prisma + class-validator
+
+```typescript
+@Post()
+@HttpCode(201)
+create(@Body() dto: ShipCreateDto) {
+  return this.shipsService.create(dto);
+}
+
+// ShipCreateDto uses @IsString(), @IsEnum(ShipClass), etc.
+// Prisma errors and validation failures are mapped in a global exception filter.
+```
+
 ## Project Layout Comparison
 
-| Concern | Express | FastAPI | Rails | Spring (Java/Kotlin) | Gin |
-|---------|---------|---------|-------|----------------------|-----|
-| Routing | Manual router | Decorators | `routes.rb` | Annotations | Gin groups |
-| DB layer | Prisma client | SQLModel | Active Record | JPA repositories | GORM |
-| Validation | Zod (explicit) | Pydantic (automatic) | Model validations | `@Valid` DTOs | struct tags |
-| Serialization | Manual helpers | Pydantic aliases | `as_json` overrides | Jackson snake_case | struct JSON tags |
-| Boilerplate | Medium | Low | Low (convention) | High | Medium |
+| Concern | Express | FastAPI | Rails | Spring (Java/Kotlin) | Gin | NestJS |
+|---------|---------|---------|-------|----------------------|-----|--------|
+| Routing | Manual router | Decorators | `routes.rb` | Annotations | Gin groups | Decorators + modules |
+| DB layer | Prisma client | SQLModel | Active Record | JPA repositories | GORM | Prisma client |
+| Validation | Zod (explicit) | Pydantic (automatic) | Model validations | `@Valid` DTOs | struct tags | class-validator DTOs |
+| Serialization | Manual helpers | Pydantic aliases | `as_json` overrides | Jackson snake_case | struct JSON tags | Manual serializers |
+| Boilerplate | Medium | Low | Low (convention) | High | Medium | Medium |
 
 ## Local Dev (without Docker)
 
@@ -181,6 +196,7 @@ Per-stack dev commands:
 - **Java**: `mvn spring-boot:run`
 - **Kotlin**: `./gradlew bootRun`
 - **Go**: `go run ./cmd/server`
+- **NestJS**: `cd node-nestjs && npm install && npx prisma generate && npm run start:dev`
 
 ## What This Compares (and What It Doesn't)
 

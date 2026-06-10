@@ -14,3 +14,5 @@ ruby-rails/log/
 ruby-rails/tmp/
 react-ui/node_modules/
 react-ui/dist/
+node-nestjs/node_modules/
+node-nestjs/dist/

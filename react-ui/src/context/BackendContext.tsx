@@ -11,10 +11,21 @@ import { BackendContext } from "./backend-context";
 
 const STORAGE_KEY = "spaceship-backend";
 
+const LEGACY_BACKEND_IDS: Record<string, BackendId> = {
+  "typescript-nestjs": "node-nestjs",
+};
+
 function readStoredBackendId(): BackendId {
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored && BACKENDS.some((b) => b.id === stored)) {
-    return stored as BackendId;
+  if (!stored) {
+    return DEFAULT_BACKEND_ID;
+  }
+  const resolved = LEGACY_BACKEND_IDS[stored] ?? stored;
+  if (BACKENDS.some((b) => b.id === resolved)) {
+    if (resolved !== stored) {
+      localStorage.setItem(STORAGE_KEY, resolved);
+    }
+    return resolved as BackendId;
   }
   return DEFAULT_BACKEND_ID;
 }

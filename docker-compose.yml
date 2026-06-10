@@ -85,6 +85,17 @@ services:
       postgres:
         condition: service_healthy
 
+  node-nestjs:
+    build: ./node-nestjs
+    ports:
+      - "3007:3007"
+    environment:
+      DATABASE_URL: postgresql://spaceship:spaceship@postgres:5432/spaceship
+      PORT: 3007
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   react-ui:
     build: ./react-ui
     ports:
@@ -96,6 +107,7 @@ services:
       - java-springboot
       - kotlin-springboot
       - go-gin
+      - node-nestjs
 
 volumes:
   postgres_data:

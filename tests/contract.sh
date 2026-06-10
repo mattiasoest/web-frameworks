@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PORTS=(3001 3002 3003 3004 3005 3006)
-NAMES=("node-express" "python-fastapi" "ruby-rails" "java-springboot" "kotlin-springboot" "go-gin")
+PORTS=(3001 3002 3003 3004 3005 3006 3007)
+NAMES=("node-express" "python-fastapi" "ruby-rails" "java-springboot" "kotlin-springboot" "go-gin" "node-nestjs")
 
 failures=0
 

@@ -62,7 +62,9 @@ a:hover {
   font-size: 0.85rem;
 }
 
-.backend-switcher select {
+.backend-switcher select,
+.backend-select {
+  min-width: 14rem;
   padding: 0.35rem 0.5rem;
   border-radius: 4px;
   border: 1px solid #475569;

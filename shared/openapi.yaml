@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Spaceship Crew Log API
   version: 1.0.0
-  description: Shared REST contract for all six backend implementations.
+  description: Shared REST contract for all seven backend implementations.
 
 servers:
   - url: http://localhost:3001
@@ -17,6 +17,8 @@ servers:
     description: Kotlin/Spring Boot
   - url: http://localhost:3006
     description: Go/Gin
+  - url: http://localhost:3007
+    description: Node/NestJS
 
 paths:
   /healthz:

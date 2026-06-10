@@ -15,6 +15,7 @@ export function Layout() {
             <label htmlFor="backend-select">Backend</label>
             <select
               id="backend-select"
+              className="backend-select"
               value={backendId}
               onChange={(e) => setBackendId(e.target.value as BackendId)}
             >
